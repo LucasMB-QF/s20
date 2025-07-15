@@ -1,45 +1,279 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Solati 20% de carga: distribución de data loggers</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solati 20% de carga: distribución de data loggers | Transfarma</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Calibri:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    html, body {
+    /* VARIABLES DE COLOR */
+    :root {
+      --primary-green: #8BC540;
+      --primary-blue: #003C88;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --bg-primary: #f5f7fa;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --footer-bg: #003C88;
+      --footer-text: #ffffff;
+      --toggle-icon: '\f186'; /* luna */
+    }
+
+    /* MODO OSCURO */
+    [data-theme="dark"] {
+      --primary-green: #8BC540;
+      --primary-blue: #4d8ff2;
+      --text-primary: #e0e9ff;
+      --text-secondary: #8a9bb8;
+      --bg-primary: #121826;
+      --bg-header: #1a2236;
+      --bg-card: #1a2236;
+      --footer-bg: #1a2236;
+      --footer-text: #8a9bb8;
+      --toggle-icon: '\f185'; /* sol */
+    }
+
+    /* ESTILOS BASE */
+    * {
       margin: 0;
       padding: 0;
-      height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      text-align: center;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
     }
+
     body {
-      padding-top: 20px;
+      font-family: 'Calibri', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    #logo {
-      max-width: 300px;
-      margin: 0 auto 10px;
-      display: block;
+
+    /* ENCABEZADO REDISEÑADO */
+    .header {
+      background: var(--bg-header);
+      padding: 12px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-bottom: 2px solid var(--primary-green);
     }
-    h1 {
+
+    .header-container {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      height: 40px;
+      filter: brightness(0.9);
+    }
+
+    .company-info {
+      flex-grow: 1;
+    }
+
+    .company-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .company-tagline {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 2px 0 0;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .main-container {
+      width: 100%;
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      text-align: center;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      text-align: center;
+      color: var(--text-secondary);
       margin-bottom: 20px;
-      font-weight: bold;
-      color: #333;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    iframe {
-      width: 100vw;
-      height: 70vh;
-      border: 1px solid #ccc;
+
+    /* CONTENEDOR DEL MODELO */
+    .model-container {
+      width: 100%;
+      height: calc(100vh - 220px);
+      min-height: 500px;
+      background: var(--bg-card);
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
-      margin-bottom: 5px;
-      display: block;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .model-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* INFO BOX */
+    .info-box {
+      background: rgba(139, 197, 64, 0.1);
+      border-left: 3px solid var(--primary-green);
+      padding: 12px 15px;
+      margin: 15px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .info-box i {
+      color: var(--primary-green);
+      margin-right: 8px;
+    }
+
+    /* PIE DE PÁGINA */
+    .footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 15px 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .footer-container {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* BOTÓN TOGGLE MODO OSCURO */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .theme-toggle::before {
+      content: var(--toggle-icon);
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 0 15px;
+      }
+      
+      .company-name {
+        font-size: 1.2rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .page-subtitle {
+        font-size: 0.9rem;
+        padding: 0 15px;
+      }
+      
+      .model-container {
+        height: calc(100vh - 200px);
+        border-radius: 0;
+      }
+      
+      .info-box {
+        margin: 15px 10px;
+      }
     }
   </style>
 </head>
-<body>
-  <img id="logo" src="https://transfarma.cl/wp-content/uploads/2024/06/logo-transfarma-vec.png" alt="Logo de la empresa" />
-  <h1>Solati 20% de carga: distribución de data loggers</h1>
-<iframe src="https://3dwarehouse.sketchup.com/embed/fe5c8c49-e0e8-490d-ab7c-eea5b83c9e6e?token=MbK1z__VVok=&binaryName=s21" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="580" height="326" allowfullscreen></iframe>
+<body data-theme="light">
+  <!-- ENCABEZADO SIMPLIFICADO -->
+  <header class="header">
+    <div class="header-container">
+      <img src="https://transfarma.cl/wp-content/uploads/2024/06/logo-transfarma-vec.png" alt="Transfarma Logo" class="logo">
+      <div class="company-info">
+        <h1 class="company-name">TRANSFARMA</h1>
+        <p class="company-tagline">Logística farmacéutica</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-container">
+    <h2 class="page-title">Solati 20% de carga: distribución de data loggers</h2>
+    
+    </div>
+    
+    <!-- CONTENEDOR DEL MODELO - ANCHO COMPLETO -->
+    <div class="model-container">
+      <!-- REEMPLAZA ESTA URL POR LA DE TU MODELO -->
+      <iframe class="model-frame" src="https://lucasmb-qf.github.io/modelos3d/" allowfullscreen></iframe>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA MINIMALISTA -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Sistema de Visualización 3D &copy; 2025 | Transfarma</p>
+    </div>
+  </footer>
+
+  <!-- BOTÓN TOGGLE MODO OSCURO -->
+  <div class="theme-toggle" id="themeToggle"></div>
+
+  <!-- SCRIPT PARA MODO OSCURO -->
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // Cargar tema guardado
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+    
+    // Cambiar tema al hacer clic
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  </script>
 </body>
 </html>
