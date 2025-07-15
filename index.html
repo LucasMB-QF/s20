@@ -7,22 +7,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Calibri:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* VARIABLES DE COLOR */
+    /* VARIABLES DE COLOR - MODO OSCURO PREDETERMINADO */
     :root {
-      --primary-green: #8BC540;
-      --primary-blue: #003C88;
-      --text-primary: #333333;
-      --text-secondary: #666666;
-      --bg-primary: #f5f7fa;
-      --bg-header: #ffffff;
-      --bg-card: #ffffff;
-      --footer-bg: #003C88;
-      --footer-text: #ffffff;
-      --toggle-icon: '\f186'; /* luna */
-    }
-
-    /* MODO OSCURO */
-    [data-theme="dark"] {
       --primary-green: #8BC540;
       --primary-blue: #4d8ff2;
       --text-primary: #e0e9ff;
@@ -33,6 +19,24 @@
       --footer-bg: #1a2236;
       --footer-text: #8a9bb8;
       --toggle-icon: '\f185'; /* sol */
+      --border-color: #2a3550;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* MODO CLARO */
+    [data-theme="light"] {
+      --primary-green: #8BC540;
+      --primary-blue: #003C88;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --bg-primary: #f5f7fa;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --footer-bg: #003C88;
+      --footer-text: #ffffff;
+      --toggle-icon: '\f186'; /* luna */
+      --border-color: #e0e6ed;
+      --shadow-color: rgba(0, 0, 0, 0.1);
     }
 
     /* ESTILOS BASE */
@@ -40,7 +44,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: background-color 0.3s, color 0.3s;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
 
     body {
@@ -52,11 +56,11 @@
       flex-direction: column;
     }
 
-    /* ENCABEZADO REDISEÑADO */
+    /* ENCABEZADO */
     .header {
       background: var(--bg-header);
       padding: 12px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px var(--shadow-color);
       border-bottom: 2px solid var(--primary-green);
     }
 
@@ -124,9 +128,10 @@
       min-height: 500px;
       background: var(--bg-card);
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px var(--shadow-color);
       overflow: hidden;
       margin-bottom: 20px;
+      border: 1px solid var(--border-color);
     }
 
     .model-frame {
@@ -137,7 +142,7 @@
 
     /* INFO BOX */
     .info-box {
-      background: rgba(139, 197, 64, 0.1);
+      background: rgba(139, 197, 64, 0.15);
       border-left: 3px solid var(--primary-green);
       padding: 12px 15px;
       margin: 15px 0;
@@ -167,7 +172,7 @@
       padding: 0 20px;
     }
 
-    /* BOTÓN TOGGLE MODO OSCURO */
+    /* BOTÓN TOGGLE MODO OSCURO/CLARO */
     .theme-toggle {
       position: fixed;
       bottom: 20px;
@@ -181,8 +186,8 @@
       justify-content: center;
       cursor: pointer;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px var(--shadow-color);
+      border: 1px solid var(--border-color);
     }
 
     .theme-toggle::before {
@@ -223,8 +228,8 @@
     }
   </style>
 </head>
-<body data-theme="light">
-  <!-- ENCABEZADO SIMPLIFICADO -->
+<body data-theme="dark"> <!-- Modo oscuro predeterminado -->
+  <!-- ENCABEZADO -->
   <header class="header">
     <div class="header-container">
       <img src="https://transfarma.cl/wp-content/uploads/2024/06/logo-transfarma-vec.png" alt="Transfarma Logo" class="logo">
@@ -238,33 +243,38 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main class="main-container">
     <h2 class="page-title">Solati 20% de carga: distribución de data loggers</h2>
+    <p class="page-subtitle">Visualización interactiva del modelo 3D de la distribución de equipos</p>
     
+    <div class="info-box">
+      <i class="fas fa-info-circle"></i> Interactúa directamente con el modelo para rotar, hacer zoom y explorar la distribución.
     </div>
     
-    <!-- CONTENEDOR DEL MODELO - ANCHO COMPLETO -->
+    <!-- CONTENEDOR DEL MODELO -->
     <div class="model-container">
-      <!-- REEMPLAZA ESTA URL POR LA DE TU MODELO -->
-      <iframe class="model-frame" src="https://lucasmb-qf.github.io/modelos3d/" allowfullscreen></iframe>
+      <iframe class="model-frame" src="https://3dwarehouse.sketchup.com/embed/fe5c8c49-e0e8-490d-ab7c-eea5b83c9e6e?token=MbK1z__VVok=&binaryName=s21" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" allowfullscreen></iframe>
     </div>
   </main>
 
-  <!-- PIE DE PÁGINA MINIMALISTA -->
+  <!-- PIE DE PÁGINA -->
   <footer class="footer">
     <div class="footer-container">
       <p>Sistema de Visualización 3D &copy; 2025 | Transfarma</p>
     </div>
   </footer>
 
-  <!-- BOTÓN TOGGLE MODO OSCURO -->
+  <!-- BOTÓN TOGGLE MODO OSCURO/CLARO -->
   <div class="theme-toggle" id="themeToggle"></div>
 
-  <!-- SCRIPT PARA MODO OSCURO -->
+  <!-- SCRIPT PARA MODO OSCURO/CLARO -->
   <script>
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
     
-    // Cargar tema guardado
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Establecer modo oscuro como predeterminado
+    const defaultTheme = 'dark';
+    
+    // Cargar tema guardado o usar el predeterminado
+    const savedTheme = localStorage.getItem('theme') || defaultTheme;
     body.setAttribute('data-theme', savedTheme);
     
     // Cambiar tema al hacer clic
