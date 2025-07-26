@@ -3,60 +3,340 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Visor 3D - Horizontal</title>
+  <title>Solati 20% de carga: distribución de data loggers | Transfarma</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    /* VARIABLES Y RESET */
+    :root {
+      --primary-green: #8BC540;
+      --primary-blue: #003C88;
+      --dark-bg: #111;
+      --light-bg: #f5f7fa;
+      --text-light: #ffffff;
+      --text-dark: #333333;
+      --card-bg: #1a2236;
+      --card-border: #2a3550;
+    }
+    
+    * {
       margin: 0;
       padding: 0;
-      font-family: sans-serif;
-      background-color: #111;
-      color: white;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    #rotate-warning {
-      display: none;
-      text-align: center;
+    
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* HEADER PROFESIONAL */
+    .header {
+      background: linear-gradient(135deg, var(--primary-blue), #002a5c);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo {
+      height: 45px;
+      filter: brightness(0.9);
+    }
+    
+    .company-info {
+      line-height: 1.4;
+    }
+    
+    .company-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    
+    .company-tagline {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    /* CONTENIDO PRINCIPAL */
+    .main-container {
+      flex: 1;
       padding: 20px;
-      font-size: 1.5em;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
     }
-
-    .iframe-container {
-      display: none;
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: var(--text-light);
+      font-weight: 500;
       position: relative;
-      width: 100vw;
-      height: 100vh;
+      padding-bottom: 10px;
+    }
+    
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary-green);
+      border-radius: 3px;
+    }
+    
+    .model-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
       overflow: hidden;
     }
-
+    
+    .card-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .card-title i {
+      color: var(--primary-green);
+    }
+    
+    /* CONTENEDOR DEL MODELO */
+    .model-container {
+      position: relative;
+      width: 100%;
+      height: 65vh;
+      min-height: 400px;
+      background: #000;
+    }
+    
     iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
-
+    
+    /* MENSAJE DE ROTACIÓN */
+    .rotate-warning {
+      display: none;
+      text-align: center;
+      padding: 30px 20px;
+      background: rgba(139, 197, 64, 0.1);
+      border-radius: 10px;
+      margin: 20px 0;
+      border-left: 4px solid var(--primary-green);
+    }
+    
+    .rotate-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: var(--primary-green);
+      animation: rotate 2s infinite ease-in-out;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(90deg); }
+    }
+    
+    .rotate-text {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    
+    .rotate-subtext {
+      opacity: 0.8;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    /* FOOTER PROFESIONAL */
+    .footer {
+      background: linear-gradient(135deg, #001a3a, var(--primary-blue));
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .footer-logo {
+      height: 35px;
+      opacity: 0.8;
+      margin: 0 auto 10px;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .model-container {
+        height: 60vh;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .model-container {
+        height: 55vh;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 15px;
+      }
+      
+      .logo {
+        height: 40px;
+      }
+      
+      .company-name {
+        font-size: 1.2rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .model-container {
+        height: 50vh;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+      
+      .logo-container {
+        justify-content: center;
+      }
+      
+      .page-title {
+        font-size: 1.3rem;
+      }
+      
+      .model-container {
+        height: 45vh;
+        min-height: 350px;
+      }
+    }
+    
+    /* ORIENTACIÓN */
     @media (orientation: portrait) {
-      #rotate-warning {
+      .model-card {
+        display: none;
+      }
+      
+      .rotate-warning {
         display: block;
       }
     }
-
+    
     @media (orientation: landscape) {
-      .iframe-container {
+      .model-card {
         display: block;
+      }
+      
+      .rotate-warning {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <div id="rotate-warning">
-    📱 Por favor, gira tu celular horizontalmente para ver el modelo 3D.
-  </div>
+  <!-- ENCABEZADO PROFESIONAL -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="https://transfarma.cl/wp-content/uploads/2024/06/logo-transfarma-vec.png" alt="Transfarma Logo" class="logo">
+      <div class="company-info">
+        <div class="company-name">TRANSFARMA</div>
+        <div class="company-tagline">Logística farmacéutica</div>
+      </div>
+    </div>
+    <div class="header-info">
+      <i class="fas fa-cube"></i> Visor 3D
+    </div>
+  </header>
 
-  <div class="iframe-container">
-    <iframe src="https://lucasmb-qf.github.io/modelos3d/" title="Visor 3D"></iframe>
-  </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-container">
+    <h1 class="page-title">Solati 20% de carga: distribución de data loggers</h1>
+    
+    <!-- TARJETA DEL MODELO 3D -->
+    <div class="model-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-map-marker-alt"></i> Mapa de distribución
+        </div>
+        <div class="card-info">
+          <i class="fas fa-expand-arrows-alt"></i> Interactivo
+        </div>
+      </div>
+      <div class="model-container">
+        <iframe src="https://lucasmb-qf.github.io/modelos3d/" title="Visor 3D de distribución"></iframe>
+      </div>
+    </div>
+    
+    <!-- MENSAJE DE ROTACIÓN PARA MÓVILES -->
+    <div class="rotate-warning">
+      <div class="rotate-icon">
+        <i class="fas fa-sync-alt"></i>
+      </div>
+      <h2 class="rotate-text">Gire su dispositivo para ver el modelo</h2>
+      <p class="rotate-subtext">Por favor, coloque su teléfono en posición horizontal para visualizar el modelo 3D interactivo.</p>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA PROFESIONAL -->
+  <footer class="footer">
+    <div class="footer-content">
+      <img src="https://transfarma.cl/wp-content/uploads/2024/06/logo-transfarma-vec.png" alt="Transfarma Logo" class="footer-logo">
+      <p>Sistema de Visualización 3D &copy; 2025 | Transfarma</p>
+      <p>Av. Américo Vespucio 1385, Santiago, Chile</p>
+    </div>
+  </footer>
+
+  <script>
+    // Detectar cambios de orientación
+    window.addEventListener("orientationchange", function() {
+      window.location.reload();
+    }, false);
+  </script>
 </body>
 </html>
